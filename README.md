@@ -7,9 +7,11 @@ Image of the Day from NASA as your wallpaper!
 Requires:
 ---------
 * Bash
-* TUI
 * feh 
-* ImageMagick (optional, if you want to automaticly 'downsize' the downloaded images to your screen res)
+* ImageMagick (optional, if you want to automaticly 'resize' the downloaded images to your screen res)
+
+Also, but nothing to worry about:
+* TUI (will be installed automaticly if missing)
 
 
 Install:
@@ -22,7 +24,8 @@ Install:
 	./configure --prefix=/usr
 	./make
 	sudo ./make-install
-	## sudo ./make-uninstall
+	
+	\#sudo ./make-uninstall
 
 Execute / Run it:
 -----------------
