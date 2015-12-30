@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+source ./configure.yassi
+source ./*_dirs.conf
+
+DATAROOTDIR="${DATADIR/$APP_NAME}"
+
+cat <<-EO_SCREEN
+#!/usr/bin/env bash
+#			NASA - Image of the DAy
+# ------------------------------------------------------------------------
+# Copyright (c) 2015 Simon Arjuna Erat (sea)  <erat.simon@gmail.com>
+# All rights reserved.
+#
+# This program is free software: you can redistribute it and/or modify it
+# under the terms of the GNU General Public License as published
+# by the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>
+#
+#
+#	Created:	2012.10.24
+#	Changed:	2015.12.30
+#
+ 	source tuirc
+ 	VERSION=$APP_VER
+ 	CFG="\$HOME/.iotd"
+#
+#	Shared function
+#
+ 	first_time() { #
+ 	# Write the initial default configuration
+ 	#
+ 		cat > \$CFG <<-EO_SCRIPT
+		#!/usr/bin/env bash
+		# Configuration file for NASA-Image of the Day
+		DIR_BG="\$HOME/.backgrounds"			# Downloaded images
+		DIR_DEF="$DATADIR"			# Fallback images
+		DIR_SYS="${DATAROOTDIR/local}backgrounds"  	# System/Distro backgrounds
+		IMG_BG=feh					# Currently only feh is supported, do not change yet
+		IMG_MODE=max					# FEH: center, fill, max, scale
+		IMG_RESIZE=false				# Downsize the images : reqs ImageMagick
+		WAIT=2						# Wait before exit
+		EO_SCRIPT
+ 	}
+ 	[ -f "\$CFG" ] || first_time
+ 	source "\$CFG"
+EO_SCREEN

@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+# This configure.yassi was generated on 2015-12-30 using YASSI (1.8.6)
+#
+#	Project Info
+#
+ 	APP_NAME=iotd			# Install name of the application, $PREFIX/share/$APP_NAME
+ 	APP_VER=0.5b			# Optional, Show Versionnumber
+ 	APP_TITLE="NASA - Image of the Day"
+ 	APP_LIC=GPLv3+			# Optional, Show License
+ 	APP_HOMEPAGE="https://github.com/sri-arjuna/$APP_NAME" 	# Optional, homepage of project
+ 	BUGTRACKER="https://github.com/sri-arjuna/$APP_NAME"
+ 	doTUI=true
+#
+#	Default target dirs
+#
+ 	BINDIR=bin			# All files in folder 'bin' will be installed to $PREFIX/bin
+ 	DATADIR=defaults
+#
+#	Tweakings
+#
+	REQ_ONE[0]=feh	# Missing alternatives just yet
+	REQS[opt]=ImageMagick
+	MAKE[0]="[ -d bin ] || mkdir bin"
+	MAKE[1]="tpl/head > bin/changebg"
+	MAKE[2]="tpl/head > bin/iotd"
+	MAKE[3]="while read line;do printf '\t%s\n' \"\$line\" >> bin/changebg; done<./${APP_NAME}_dirs.conf "
+	MAKE[4]="while read line;do printf '\t%s\n' \"\$line\" >> bin/iotd; done<./${APP_NAME}_dirs.conf"
+	MAKE[5]="cat tpl/changebg >> bin/changebg"
+	MAKE[6]="cat tpl/iotd >> bin/iotd"
+	MAKE[7]="chmod +x bin/*"
+	DISTCLEAN[0]=bin
+	

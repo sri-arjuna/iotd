@@ -1,0 +1,61 @@
+#
+#	Variables
+#
+	defaultbg="$DIR_DEF"
+	nasabg="$DIR_BG"
+	distrobg="$DIR_SYS"
+	opt="--bg-${BG_MODE:-max}"
+	oPWD="$PWD"
+	str_kind="Select kind of background:"
+	str_bg="Select the actual background image:"
+#
+#	Outout
+#	
+	printf "\r\t\r" #;echo
+	sleep 0.04
+	tui-print -H "sea's NASA Image of the Day" "Change BG"
+	tui-print -T "$str_kind"
+	style=menu
+	while [ ! "$style" = Back ] 
+	do	style=$(tui-select Back NASA-Random NASA Defaults Distro Custom)
+		[ ! Back = "$style" ] && tui-title "$style"
+		case "$style" in
+		Back)		break		;;
+		NASA-Random)	path=$nasabg
+				cd "$path"
+				max=$(ls -l|wc -l)
+				num=$(tui-rnd $max)
+				files=( * )
+				img="${files[$num]}"
+				tui-print -E "Selected random:" "$img"
+				cd "$oPWD"
+				;;
+		NASA)		path=$nasabg	;;
+		Distro)		path=$distrobg
+				[ ! -d "$path" ] &&  tui-print -S 1 "Please change: $CFG, as path: $path, does not exit." && continue;;
+		Defaults)	path=$defaultbg ;;
+		Custom) 	path=$(tui-read "Please type the absolute path of the images:") ;;
+		esac
+		
+		case "$style" in
+		NASA-Random)	feh $opt "$path/$img"
+				#tui-echo
+				;;
+		*)		tui-print -E "$str_bg"
+				tui-print -E "Images from path:" "$path"
+				pics=$(cd "$path";ls;cd "$oPWD")
+				img=todo
+				while [ ! Back = "$img" ]
+				do	img=$(tui-select Back $pics)
+					[ $img = Back ] && break
+					feh $opt "$path/$img"
+					tui-status $? "Set background to: $img"
+					tui-echo
+					tui-print -T "$style"
+					tui-print -E "$str_bg" "or go Back"
+				done
+				;;
+		esac
+		tui-print -T "$str_kind"
+		#tui-print -E "$str_kind" "or go Back to exit."
+	done
