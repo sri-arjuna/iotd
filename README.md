@@ -22,7 +22,9 @@ Install:
 3. Install it
 
 	./configure --prefix=/usr
+	
 	./make
+	
 	sudo ./make-install
 	
 	\#sudo ./make-uninstall
